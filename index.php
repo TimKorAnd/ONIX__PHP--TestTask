@@ -1,23 +1,33 @@
 <?php
     declare(strict_types=1);
-    //define('SESSION_NAME', 'ONYXTestTask');
+    //$sessionName = 'unregisteredUserSession';
+    //if user reg form submitted
     if (isset($_POST['userRegistrationSubmit'])):
-        $_SESSION['registeredUserId']['sessionName'] = $_POST['userFirstName'].$_POST['userLastName'].$_POST['userAge'];
+        $userFullName  = $_SESSION['registeredUserId']['userFullName'] = $_POST['userFirstName'].' '.$_POST['userLastName'];
+        $userAge = $_SESSION['registeredUserId']['userAge'] = $_POST['userAge'];
+        $sessionName = $_SESSION['registeredUserId']['sessionName'] = hash('sha256', $userFullName.$userAge);
+        $_SESSION['registeredUserId']['count'] = $_COOKIE[$sessionName.'count'] ?? 0;
     endif;
-    $sessionName = isset($_SESSION['registeredUserId']) ?
-      $_SESSION['registeredUserId']['sessionName'] :
-      'unregisteredUserSession';
+
+    $sessionName = $_SESSION['registeredUserId']['sessionName'] ?? 'unregisteredUserSession';
 
     session_name($sessionName);
     session_start();
+
+    $count = $_COOKIE[$sessionName.'count'] ?? 0;
+    setcookie($sessionName.'count',(String)(++$count),time() + (60*60*24*120) ); //about termins of internature
+
+
 ?>    
 <div class="sessionCount">
-    <p>session counter:</p>
+    <p>session counter for <?=$userFullName ?? ''?>:</p>
     <?php
-        if (!isset($_SESSION['count'])) {
-            $_SESSION['count'] = 0;
+       /* if (!isset($_SESSION['registeredUserId']['count'])) {
+            $_SESSION['registeredUserId']['count'] = 0;
         }
-        echo ++$_SESSION['count'];
+        echo ++$_SESSION['registeredUserId']['count'];*/
+        echo $count;
+
     ?>
 </div>
 <form id="userRegistration" action = "index.php" method="post">
