@@ -102,7 +102,7 @@
 <body data-gr-c-s-loaded="true" class="">
 <div class="sessionCount container">
     <?php if (!empty($userFullName)):?>
-        <p>Вы <?=$userFullName?> и вы родились в
+        <p>Вы <?=htmlspecialchars($userFullName)?> и вы родились в
             <?php try {
                 echo ($date->sub(new DateInterval("P" . $userAge . "Y"))->format("Y"));
             } catch (Exception $e) {
