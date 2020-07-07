@@ -24,7 +24,7 @@
     setcookie($sessionName."[lastVisitTime]",$date->format("d/m/Y H:i:s"), COOKIE_LIFETIME);
 
 
-    /**
+    /** Get ending depending times and russian languages rules
      * @param int $visitCounter quantity of visits
      * @return string 'a' for "раза" or '' for "раз"
      */
@@ -40,18 +40,18 @@
     }
 
     /**
-     *
+     * Checks is last number (of two digits) is in second ten? (twelve, thirteen, fourteen)
      * @param string $strCount
-     * @return bool
+     * @return bool true if number of last two digits in range [12-14]
      */
     function isLastCausingNumberInSecondTen(string $strCount): bool
     {
         return (substr($strCount, -2, 1) == '1');
     }
 
-    /**
+    /** Checks is last digit from list of causing "a"-ending
      * @param string $strCount
-     * @return bool
+     * @return bool true if may causing "a"-ending, and vice versa
      */
     function isLastDigitCausingEndingOnA(string $strCount): bool
     {
